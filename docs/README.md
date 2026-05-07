@@ -12,10 +12,12 @@ composer require codefog/contao-widget_hours
 
 The following options can be set in the evaluation array:
 
-Property | Description
---- | ---
-rows | Number of input rows
-weekOffset | Starting day of the week (0=Sunday, 1=Monday, etc.)
+Property | Type | Description
+--- | --- | ---
+rows | int |Number of input rows
+weekOffset | int | Starting day of the week (0=Sunday, 1=Monday, etc.)
+showClosed | bool | Shows a closed checkbox
+inheritDays | bool | Shows a inherit checkbox and a select field to choose from where
 
 For example implementation see below code:
 
@@ -27,6 +29,8 @@ $GLOBALS['TL_DCA']['tl_table']['fields']['openHours'] = [
         'mandatory' => true, 
         'rows' => 2, // Number of rows
         'weekOffset' => 1, // Custom week offset
+        'showClosed' => true, // true|false (shows a checkbox to mark the day as closed)
+        'inherhitDays' => true, // true|false (shows a checkbox and select field to inherit)
         'storeRaw' => true, // Store raw values and do not convert value to timestamp
         'tl_class' => 'clr',
     ],
