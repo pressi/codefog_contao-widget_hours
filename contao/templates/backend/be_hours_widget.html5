@@ -32,19 +32,19 @@
         <tr>
             <?php foreach($footer as $day => $foot): ?>
                 <td>
-                    <?php if ($foot['closed]['show']): ?>
+                    <?php if ($foot['closed']['show']): ?>
                     <div class="tl_checkbox_single_container">
                         <input type="hidden" name="<?= $foot['closed']['name'] ?>" value="">
                         <span>
-                            <input type="checkbox" name="<?= $foot['closed']['name'] ?>" class="tl_checkbox" id="<?= $foot['closed']['id'] ?>" value="1"><label for="<?= $foot['closed']['id'] ?>"><?= $foot['closed']['label'] ?></label>
+                            <input type="checkbox" name="<?= $foot['closed']['name'] ?>" class="tl_checkbox" id="<?= $foot['closed']['id'] ?>" value="1"<? if($foot['closed']['checked']): ?> checked<?php endif; ?>><label for="<?= $foot['closed']['id'] ?>"><?= $foot['closed']['label'] ?></label>
                         </span>
                     </div>
                     <?php endif; ?>
-                    <?php if ($foot['inherit]['show']): ?>
+                    <?php if ($foot['inherit']['show']): ?>
                     <div class="tl_checkbox_single_container">
                         <input type="hidden" name="<?= $foot['inherit']['name'] ?>" value="">
                         <span>
-                            <input type="checkbox" name="<?= $foot['inherit']['name'] ?>" class="tl_checkbox" id="<?= $foot['inherit']['id'] ?>" value="1"><label for="<?= $foot['inherit']['id'] ?>"><?= $foot['inherit']['label'] ?></label>
+                            <input type="checkbox" name="<?= $foot['inherit']['name'] ?>" class="tl_checkbox" id="<?= $foot['inherit']['id'] ?>" value="1"<? if($foot['inherit']['checked']): ?> checked<?php endif; ?>><label for="<?= $foot['inherit']['id'] ?>"><?= $foot['inherit']['label'] ?></label>
                         </span>
                     </div>
 
