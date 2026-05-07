@@ -4,7 +4,7 @@
     <thead>
     <tr>
         <?php foreach ($this->getTableHeaders() as $header): ?>
-            <th><?= $header ?></th>
+            <th><?= $header['label'] ?></th>
         <?php endforeach; ?>
     </tr>
     </thead>
@@ -27,6 +27,24 @@
         </tr>
     <?php endforeach; ?>
     </tbody>
+    <?php if(count($footer = $this-getTableFooter())): ?>
+    <tfoot>
+        <tr>
+            <?php foreach($footer as $day => $foot): ?>
+                <td>
+                    <?php if ($foot['closed]['show']): ?>
+                    <div class="tl_checkbox_single_container">
+                        <input type="hidden" name="<?= $foot['closed']['name'] ?>" value="">
+                        <span>
+                            <input type="checkbox" name="<?= $foot['closed']['name'] ?>" class="tl_checkbox" id="<?= $foot['closed']['id'] ?>" value="1"><label for="<?= $foot['closed']['id'] ?>"><?= $foot['closed']['label'] ?></label>
+                        </span>
+                    </div>
+                    <?php endif; ?>
+                </td>
+            <?php endforeach; ?>
+        </tr>
+    </tfoot>
+    <?php endif; ?>
 </table>
 
 <?= $this->getErrorAsHTML() ?>
