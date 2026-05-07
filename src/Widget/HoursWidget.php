@@ -125,13 +125,13 @@ class HoursWidget extends Widget
                         'day' => $currentDay,
                         'id' => $this->strId.'_'.$currentDay.'_'.$j.'_from',
                         'name' => $this->strId.'['.$currentDay.'][rows]['.$j.'][from]',
-                        'value' => is_numeric($this->varValue[$currentDay][rows][$j]['from'] ?? false) ? Date::parse(Config::get('timeFormat'), $this->varValue[$currentDay][$j]['from']) : ($this->varValue[$currentDay][rows][$j]['from'] ?? ''),
+                        'value' => is_numeric($this->varValue[$currentDay]['rows'][$j]['from'] ?? false) ? Date::parse(Config::get('timeFormat'), $this->varValue[$currentDay]['rows'][$j]['from']) : ($this->varValue[$currentDay]['rows'][$j]['from'] ?? ''),
                     ],
                     'to' => [
                         'day' => $currentDay,
                         'id' => $this->strId.'_'.$currentDay.'_'.$j.'_to',
                         'name' => $this->strId.'['.$currentDay.'][rows]['.$j.'][to]',
-                        'value' => is_numeric($this->varValue[$currentDay][rows][$j]['to'] ?? false) ? Date::parse(Config::get('timeFormat'), $this->varValue[$currentDay][$j]['to']) : ($this->varValue[$currentDay][rows][$j]['to'] ?? ''),
+                        'value' => is_numeric($this->varValue[$currentDay]['rows'][$j]['to'] ?? false) ? Date::parse(Config::get('timeFormat'), $this->varValue[$currentDay]['rows'][$j]['to']) : ($this->varValue[$currentDay]['rows'][$j]['to'] ?? ''),
                     ],
                 ];
             }
@@ -148,7 +148,7 @@ class HoursWidget extends Widget
             for ($j = 0; $j < $this->numberOfRows; $j++) {
                 for ($i = 0; $i < 7; $i++) {
                     $currentDay = ($i + $this->weekOffset) % 7;
-    
+
                     $footer[] = [
                         'day' => $currentDay,
                         'closed' => [
@@ -206,10 +206,10 @@ class HoursWidget extends Widget
         return $this->parse();
     }
 
-    protected function getInheritSelectOptionsArray(int $day): array 
+    protected function getInheritSelectOptionsArray(int $day): array
     {
         $dayChecked = $this->varValue[$day]['inherit_day'];
-        
+
         $options = [
             [
                 'value' => '',
