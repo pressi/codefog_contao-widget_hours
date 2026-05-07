@@ -155,11 +155,13 @@ class HoursWidget extends Widget
                             'show' => $this->showClosed ?? false,
                             'name' => $this->strId.'['.$currentDay.'][closed]',
                             'id' => $this->strId.'_'.$currentDay.'_closed',
+                            'checked' => $this->varValue[$currentDay]['closed'] ?? false,
                         ],
                         'inherit' => [
                             'show' => $this->inheritDays ?? false,
                             'name' => $this->strId.'['.$currentDay.'][inherit]',
                             'id' => $this->strId.'_'.$currentDay.'_inherit',
+                            'checked' => $this->varValue[$currentDay]['inherit'] ?? false,
                             'select_name' => $this->strId.'['.$currentDay.'][inherit_day]',
                             'select_id' => $this->strId.'_'.$currentDay.'_inherit_day',
                             'select_options' => $this->getInheritSelectOptionsArray($currentDay),
