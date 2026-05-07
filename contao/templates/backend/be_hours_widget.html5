@@ -40,6 +40,22 @@
                         </span>
                     </div>
                     <?php endif; ?>
+                    <?php if ($foot['inherit]['show']): ?>
+                    <div class="tl_checkbox_single_container">
+                        <input type="hidden" name="<?= $foot['inherit']['name'] ?>" value="">
+                        <span>
+                            <input type="checkbox" name="<?= $foot['inherit']['name'] ?>" class="tl_checkbox" id="<?= $foot['inherit']['id'] ?>" value="1"><label for="<?= $foot['inherit']['id'] ?>"><?= $foot['inherit']['label'] ?></label>
+                        </span>
+                    </div>
+
+                    <div class="hidden-area inherit-select-container<?php if($foot['inherit']['checked']): ?> shown<?php endif; ?>">
+                        <select name="<?= $foot['inherit']['select_name'] ?>" id="<?= $foot['inherit']['select_id'] ?>" class="tl_select">
+                            <?php foreach($foot['inherit']['select_options'] as $option): ?>
+                                <option value="<?= $option['value'] ?>"<?php if($option['selected']): ?> selected<?php endif; ?>><?= $option['label'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <?php endif; ?>
                 </td>
             <?php endforeach; ?>
         </tr>
