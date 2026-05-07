@@ -212,42 +212,42 @@ class HoursWidget extends Widget
             [
                 'value' => '',
                 'label' => $GLOBALS['TL_LANG']['MSC']['wh_day_before'] ?? 'day before',
-                'checked' => ($dayChecked === '') ?? false
+                'selected' => ($dayChecked === '') ?? false
             ],
             [
                 'value' => '1',
                 'label' => $GLOBALS['TL_LANG']['DAYS'][1] ?? 'Monday',
-                'checked' => ($dayChecked === '1') ?? false
+                'selected' => ($dayChecked === '1') ?? false
             ],
             [
                 'value' => '2',
                 'label' => $GLOBALS['TL_LANG']['DAYS'][2] ?? 'Tuesday',
-                'checked' => ($dayChecked === '2') ?? false
+                'selected' => ($dayChecked === '2') ?? false
             ],
             [
                 'value' => '3',
                 'label' => $GLOBALS['TL_LANG']['DAYS'][3] ?? 'Wednesday',
-                'checked' => ($dayChecked === '3') ?? false
+                'selected' => ($dayChecked === '3') ?? false
             ],
             [
                 'value' => '4',
                 'label' => $GLOBALS['TL_LANG']['DAYS'][4] ?? 'Thursday',
-                'checked' => ($dayChecked === '4') ?? false
+                'selected' => ($dayChecked === '4') ?? false
             ],
             [
                 'value' => '5',
                 'label' => $GLOBALS['TL_LANG']['DAYS'][5] ?? 'Friday',
-                'checked' => ($dayChecked === '5') ?? false
+                'selected' => ($dayChecked === '5') ?? false
             ],
             [
                 'value' => '6',
                 'label' => $GLOBALS['TL_LANG']['DAYS'][6] ?? 'Saturday',
-                'checked' => ($dayChecked === '6') ?? false
+                'selected' => ($dayChecked === '6') ?? false
             ],
             [
                 'value' => '7',
                 'label' => $GLOBALS['TL_LANG']['DAYS'][0] ?? 'Sunday',
-                'checked' => ($dayChecked === '7') ?? false
+                'selected' => ($dayChecked === '7') ?? false
             ],
         ];
     }
