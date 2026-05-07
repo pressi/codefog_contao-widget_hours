@@ -56,27 +56,29 @@ class HoursWidget extends Widget
     {
         $mandatory = $this->mandatory;
         $input = StringUtil::deserialize($this->getPost($this->strName), true);
+        $inherit = $this->inheritDays;
 
-        foreach ($input as $k => $days) {
-            foreach ($days as $kk => $day) {
+        foreach ($input as $dayKey => $day) {
+            foreach ($day['rows'] as $rowKey => $row) {
+                // @TODO!!
                 // Mandatory check
-                if ($mandatory && ($day['from'] && $day['to'])) {
+                if ($mandatory && ($row['from'] && $row['to'])) {
                     $mandatory = false;
                 }
 
-                if ($day['from'] xor $day['to']) {
+                if ($row['from'] xor $row['to']) {
                     $mandatory = true;
                 }
 
                 // Valid time check
-                if (($day['from'] && !preg_match('~^'.Date::getRegexp(Config::get('timeFormat')).'$~i', $day['from'])) || ($day['to'] && !preg_match('~^'.Date::getRegexp(Config::get('timeFormat')).'$~i', $day['to']))) {
+                if (($row['from'] && !preg_match('~^'.Date::getRegexp(Config::get('timeFormat')).'$~i', $row['from'])) || ($row['to'] && !preg_match('~^'.Date::getRegexp(Config::get('timeFormat')).'$~i', $row['to']))) {
                     $this->addError(sprintf($GLOBALS['TL_LANG']['ERR']['time'], Date::getInputFormat(Config::get('timeFormat'))));
                     break 2;
                 }
 
-                if (!$this->storeRaw && $day['from'] && $day['to']) {
-                    $input[$k][$kk]['from'] = (new Date($day['from'], Config::get('timeFormat')))->tstamp;
-                    $input[$k][$kk]['to'] = (new Date($day['to'], Config::get('timeFormat')))->tstamp;
+                if (!$this->storeRaw && $row['from'] && $row['to']) {
+                    $input[$dayKey]['rows'][$rowkey]['from'] = (new Date($row['from'], Config::get('timeFormat')))->tstamp;
+                    $input[$dayKey]['rows'][$rowkey]['to'] = (new Date($row['to'], Config::get('timeFormat')))->tstamp;
                 }
             }
         }
@@ -98,7 +100,10 @@ class HoursWidget extends Widget
 
         for ($i = 0; $i < 7; $i++) {
             $currentDay = ($i + $this->weekOffset) % 7;
-            $headers[] = $GLOBALS['TL_LANG']['DAYS'][$currentDay];
+            $headers[] = [
+                'label' => $GLOBALS['TL_LANG']['DAYS'][$currentDay],
+                'day' => $currentDay,
+            ];
         }
 
         return $headers;
@@ -117,20 +122,43 @@ class HoursWidget extends Widget
 
                 $body[$j][] = [
                     'from' => [
-                        'id' => $this->strId.'_'.$j.'_'.$currentDay.'_from',
-                        'name' => $this->strId.'['.$j.']['.$currentDay.'][from]',
-                        'value' => is_numeric($this->varValue[$j][$currentDay]['from'] ?? false) ? Date::parse(Config::get('timeFormat'), $this->varValue[$j][$currentDay]['from']) : ($this->varValue[$j][$currentDay]['from'] ?? ''),
+                        'day' => $currentDay,
+                        'id' => $this->strId.'_'.$currentDay.'_'.$j.'_from',
+                        'name' => $this->strId.'['.$currentDay.'][rows]['.$j.'][from]',
+                        'value' => is_numeric($this->varValue[$currentDay][rows][$j]['from'] ?? false) ? Date::parse(Config::get('timeFormat'), $this->varValue[$currentDay][$j]['from']) : ($this->varValue[$currentDay][rows][$j]['from'] ?? ''),
                     ],
                     'to' => [
-                        'id' => $this->strId.'_'.$j.'_'.$currentDay.'_to',
-                        'name' => $this->strId.'['.$j.']['.$currentDay.'][to]',
-                        'value' => is_numeric($this->varValue[$j][$currentDay]['to'] ?? false) ? Date::parse(Config::get('timeFormat'), $this->varValue[$j][$currentDay]['to']) : ($this->varValue[$j][$currentDay]['to'] ?? ''),
+                        'day' => $currentDay,
+                        'id' => $this->strId.'_'.$currentDay.'_'.$j.'_to',
+                        'name' => $this->strId.'['.$currentDay.'][rows]['.$j.'][to]',
+                        'value' => is_numeric($this->varValue[$currentDay][rows][$j]['to'] ?? false) ? Date::parse(Config::get('timeFormat'), $this->varValue[$currentDay][$j]['to']) : ($this->varValue[$currentDay][rows][$j]['to'] ?? ''),
                     ],
                 ];
             }
         }
 
         return $body;
+    }
+
+    public function getTableFooter(): array
+    {
+        $footer = [];
+
+        if ($this->showClosed ?? false || $this->inheritDays ?? false)
+            for ($j = 0; $j < $this->numberOfRows; $j++) {
+                for ($i = 0; $i < 7; $i++) {
+                    $currentDay = ($i + $this->weekOffset) % 7;
+    
+                    $footer[] = [
+                        'day' => $currentDay,
+                        'showClosedInput' => $this->showClosed ?? false,
+                        'showInheritInput' => $this->inheritDays ?? false,
+                    ];
+                }
+            }
+        }
+
+        return $footer;
     }
 
     /**
@@ -144,8 +172,12 @@ class HoursWidget extends Widget
         if (!is_array($this->varValue) || empty($this->varValue)) {
             $this->varValue = [
                 [
-                    'from' => '',
-                    'to' => '',
+                    'rows' => [
+                        [
+                            'from' => '',
+                            'to' => '',
+                        ],
+                    ],
                 ],
             ];
         }
