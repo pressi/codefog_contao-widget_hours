@@ -16,8 +16,8 @@ Property | Type | Description
 --- | --- | ---
 rows | int |Number of input rows
 weekOffset | int | Starting day of the week (0=Sunday, 1=Monday, etc.)
-showClosed | bool | Shows a closed checkbox
-inheritDays | bool | Shows a inherit checkbox and a select field to choose from where
+showClosed | bool | Shows a checkbox to mark the day as closed
+inheritDays | bool | Shows a inherit checkbox and a select field to choose from where to inherit
 
 For example implementation see below code:
 
