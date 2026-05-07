@@ -151,8 +151,19 @@ class HoursWidget extends Widget
     
                     $footer[] = [
                         'day' => $currentDay,
-                        'showClosedInput' => $this->showClosed ?? false,
-                        'showInheritInput' => $this->inheritDays ?? false,
+                        'closed' => [
+                            'show' => $this->showClosed ?? false,
+                            'name' => $this->strId.'['.$currentDay.'][closed]',
+                            'id' => $this->strId.'_'.$currentDay.'_closed',
+                        ],
+                        'inherit' => [
+                            'show' => $this->inheritDays ?? false,
+                            'name' => $this->strId.'['.$currentDay.'][inherit]',
+                            'id' => $this->strId.'_'.$currentDay.'_inherit',
+                            'select_name' => $this->strId.'['.$currentDay.'][inherit_day]',
+                            'select_id' => $this->strId.'_'.$currentDay.'_inherit_day',
+                            'select_options' => $this->getInheritSelectOptionsArray($currentDay),
+                        ].
                     ];
                 }
             }
@@ -191,5 +202,53 @@ class HoursWidget extends Widget
     public function generate()
     {
         return $this->parse();
+    }
+
+    protected function getInheritSelectOptionsArray(int $day): array 
+    {
+        $dayChecked = $this->varValue[$day]['inherit_day'];
+        
+        $options = [
+            [
+                'value' => '',
+                'label' => $GLOBALS['TL_LANG']['MSC']['wh_day_before'] ?? 'day before',
+                'checked' => ($dayChecked === '') ?? false
+            ],
+            [
+                'value' => '1',
+                'label' => $GLOBALS['TL_LANG']['DAYS'][1] ?? 'Monday',
+                'checked' => ($dayChecked === '1') ?? false
+            ],
+            [
+                'value' => '2',
+                'label' => $GLOBALS['TL_LANG']['DAYS'][2] ?? 'Tuesday',
+                'checked' => ($dayChecked === '2') ?? false
+            ],
+            [
+                'value' => '3',
+                'label' => $GLOBALS['TL_LANG']['DAYS'][3] ?? 'Wednesday',
+                'checked' => ($dayChecked === '3') ?? false
+            ],
+            [
+                'value' => '4',
+                'label' => $GLOBALS['TL_LANG']['DAYS'][4] ?? 'Thursday',
+                'checked' => ($dayChecked === '4') ?? false
+            ],
+            [
+                'value' => '5',
+                'label' => $GLOBALS['TL_LANG']['DAYS'][5] ?? 'Friday',
+                'checked' => ($dayChecked === '5') ?? false
+            ],
+            [
+                'value' => '6',
+                'label' => $GLOBALS['TL_LANG']['DAYS'][6] ?? 'Saturday',
+                'checked' => ($dayChecked === '6') ?? false
+            ],
+            [
+                'value' => '7',
+                'label' => $GLOBALS['TL_LANG']['DAYS'][0] ?? 'Sunday',
+                'checked' => ($dayChecked === '7') ?? false
+            ],
+        ];
     }
 }
